@@ -24,37 +24,29 @@
         FB.login(function(response) {
            if (response.authResponse)
            {
-                getUserInfo();
+           	var access_token = FB.getAuthResponse()['accessToken'];
+           	var userId = response.authResponse.userID;
+           	console.log(userId);
+		  if(userId > 0)
+			$.get("https://graph.facebook.com/me?access_token="+access_token, function(data)
+			{	
+				$.ajax({
+			type: "POST",
+			url: "friends.php",
+			data: { 'accesstoken': access_token , 'user_id': userId  }
+			})
+								
+			}, "json");
+                
             } else
             {
              console.log('User cancelled login or did not fully authorize.');
             }
-         },{scope: 'email,user_photos,user_videos'});
+         },{scope: 'read_friendlists'});
  
     }
  
-  function getUserInfo() {
-
-        FB.api('/me/friends', function(response) {
- 			//console.log(response.data);
- 			friends = response.data;
- 			var friendList = "";
-     $.each(response.data,function(index,friend)
-						{
-						   //console.log(friend.name + ' has id:' + friend.id);
-						   friendName	=	friend.name.split(" ");
-						   userImg	=	"http://graph.facebook.com/"+friend.id+"/picture?width=50&height=50";
-						   
-						   friendList	+=	'<h5>'+friend.id+ '</h5>'+friendName[0]+' <span>'+friendName[1]+'</span></h5>';   
-						   
-						   
-					   });
-          
-          //str +="<input type='button' value='Logout' onclick='Logout();'/>";
-          $("#status").append(friendList);
  
-    });
-    }
     function getPhoto()
     {
       FB.api('/me/picture?type=normal', function(response) {

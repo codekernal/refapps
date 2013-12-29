@@ -25,7 +25,7 @@ else
 	$fbapp_secret = '09cec61ce35f58c0a41815c514330ddd';		
 }
 
-$mysqli = new mysqli($database_cred['host'],$database_cred['user'],$database_cred['password'],$database_cred['database']);
+//$mysqli = new mysqli($database_cred['host'],$database_cred['user'],$database_cred['password'],$database_cred['database']);
 
 
 
